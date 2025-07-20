@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MusicMaze</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: linear-gradient(145deg, #2e3c57, #1a2b45);
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    form {
+      margin: 30px auto;
+      width: 90%;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    }
+    input[type="text"], select {
+      padding: 12px;
+      width: 100%;
+      background: #1e2a38;
+      color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    option {
+      background: #1e2a38;
+      color: #fff;
+    }
+    button {
+      padding: 12px 30px;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background: #005dc1;
+    }
+    .lyrics-box {
+      margin-top: 40px;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 30px;
+      border-radius: 15px;
+      font-size: 18px;
+      white-space: pre-line;
+    }
+    audio {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎵 MusicMaze</h1>
+  <p>Create personalized songs with AI</p>
+
+  <form action="/generate" method="POST">
+    <input type="text" name="prompt" placeholder="e.g. A song about friendship" required>
+
+    <label for="mood">Select Mood:</label>
+    <select name="mood" id="mood" required>
+      <option value="happy">Happy</option>
+      <option value="sad">Sad</option>
+      <option value="romantic">Romantic</option>
+      <option value="energetic">Energetic</option>
+      <option value="calm">Calm</option>
+    </select>
+
+    <label for="language">Select Language:</label>
+    <select name="language" id="language" required>
+      <option value="English">English</option>
+      <option value="Hindi">Hindi</option>
+      <option value="Telugu">Telugu</option>
+    </select>
+
+    <br><br>
+    <button type="submit">Generate Song</button>
+  </form>
+
+  {% if lyrics %}
+    <h2>🎶 Generated Lyrics</h2>
+    <div class="lyrics-box">{{ lyrics }}</div>
+  {% endif %}
+
+  {% if audio_file %}
+    <h4>🎧 Generated Song</h4>
+    <audio controls>
+      <source src="{{ url_for('static', filename=audio_file) }}?v={{ cache_buster }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  {% endif %}
+</body>
+</html>
